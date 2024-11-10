@@ -1,13 +1,18 @@
 import math
+import os
 
-def print_table(results):
-    # Get maximal length of string in each column for formatting
-    col_widths = [max(len(str(row[i])) for row in results) for i in range(len(results[0]))]
+def save_table(filename, results, output_dir="tables/"):
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
 
-    for row in results:
-        for i, elem in enumerate(row):
-            print(str(elem).ljust(col_widths[i] + 2), end='')
-        print()
+    with open(output_dir + filename, 'w', encoding='utf-8') as file:
+        # Get maximal length of string in each column for formatting
+        col_widths = [max(len(str(row[i])) for row in results) for i in range(len(results[0]))]
+
+        for row in results:
+            for i, elem in enumerate(row):
+                file.write(str(elem).ljust(col_widths[i] + 2))
+            file.write('\n')
 
 def species_count(data):
     setosa = 0
@@ -41,7 +46,7 @@ def first_table(data):
 
     results.append(['Razem', total_count, '100%'])
 
-    print_table(results)
+    save_table("first_table", results)
 
 def find_min(data, col_index):
     min_value = data[0][col_index]
@@ -133,9 +138,8 @@ def second_table(data):
 
         results.append([text, min_val, avg_val, std_dev, median_q2, median_q1, median_q3, max_val])
 
-    print_table(results)
+    save_table("second_table", results)
 
 def tables(data):
     first_table(data)
-    print()
     second_table(data)
