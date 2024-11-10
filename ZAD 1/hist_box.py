@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 from tables import find_min, find_max
+import os
 
 def get_column(data, col_index):
     column = []
@@ -35,7 +36,10 @@ def get_bins(start, end):
 
     return result
 
-def hist(title, description):
+def hist(title, description, output_dir="plots/hist"):
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
     bins_list = description["bins"]
     xlabel = description["xlabel"]
 
@@ -47,7 +51,9 @@ def hist(title, description):
     plt.ylabel('Liczebność')
     plt.title(title)
 
-    plt.show()
+    output_path = f"{output_dir}/{title.replace(' ', '_')}_hist.png"
+    plt.savefig(output_path)
+    plt.close()
 
 def hist_all(data):
     characteristics = {
@@ -76,7 +82,10 @@ def hist_all(data):
     for title, description in characteristics.items():
         hist(title, description)
 
-def box(title, description):
+def box(title, description, output_dir="plots/box"):
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
     dataset = [item for item in description.values()]
 
     plt.boxplot(dataset)
@@ -87,7 +96,9 @@ def box(title, description):
     plt.xlabel('Gatunek')
     plt.ylabel("Długość (cm)" if title[0] == "D" else "Szerokość (cm)")
 
-    plt.show()
+    output_path = f"{output_dir}/{title.replace(' ', '_')}_box.png"
+    plt.savefig(output_path)
+    plt.close()
 
 def box_all(data):
     characteristics = {
