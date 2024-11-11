@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from tables import mean
 from hist_box import get_column
 from tables import mean
-import math
+import math, os
 
 def characteristics(column_index):
     data = ["Długość działki kielicha", "Szerokość działki kielicha", "Długość płatka", "Szerokość płatka"]
@@ -38,7 +38,10 @@ def linear_regression(x, y, x_mean, y_mean):
 
     return a, b
 
-def plot(x, y, x_mean, y_mean, x_label, y_label):
+def plot(x, y, x_mean, y_mean, x_label, y_label, output_dir="plots/scatter"):
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
     a, b = linear_regression(x, y, x_mean, y_mean)
 
     plt.scatter(x, y, color='blue')
@@ -52,7 +55,9 @@ def plot(x, y, x_mean, y_mean, x_label, y_label):
     r = round(correlation(x, y, x_mean, y_mean), 2)
     plt.title(f'r = {r}; y = {round(b, 1)}x + {round(a, 1)}')
 
-    plt.show()
+    output_path = f"{output_dir}/{x_label.replace(' ', '_')}_I_{y_label.replace(' ', '_')}.png"
+    plt.savefig(output_path)
+    plt.close()
 
 def all_plots(data):
     pairs = []
