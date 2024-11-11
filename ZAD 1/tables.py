@@ -55,7 +55,7 @@ def find_min(data, col_index):
         if data[i][col_index] < min_value:
             min_value = data[i][col_index]
 
-    return round(min_value, 2)
+    return min_value
 
 def find_max(data, col_index):
     max_value = data[0][col_index]
@@ -64,7 +64,7 @@ def find_max(data, col_index):
         if data[i][col_index] > max_value:
             max_value = data[i][col_index]
 
-    return round(max_value, 2)
+    return max_value
 
 def mean(data, col_index):
     sum_value = 0
@@ -72,7 +72,7 @@ def mean(data, col_index):
     for i in range(len(data)):
         sum_value += data[i][col_index]
 
-    return round(sum_value / len(data), 2)
+    return sum_value / len(data)
 
 def standard_deviation(data, mean, col_index):
     numerator = 0
@@ -80,7 +80,7 @@ def standard_deviation(data, mean, col_index):
     for i in range(len(data)):
         numerator += pow(data[i][col_index] - mean, 2)
     
-    return round(math.sqrt(numerator / len(data)), 2)
+    return math.sqrt(numerator / len(data))
 
 def median(column):
     median = 0
@@ -114,7 +114,7 @@ def median_for_qs(data, col_index):
     else:
         median_q3 = median(column[median_q2[1] + 1:])
 
-    return[round(median_q2[0], 2), round(median_q1[0], 2), round(median_q3[0], 2)]
+    return[median_q2[0], median_q1[0], median_q3[0]]
 
 def second_table(data):
     results = [['Cecha', 'Minimum', 'Średnia arytmetyczna', 'Odchylenie standardowe', 'Mediana Q2', 'Mediana Q1', 'Mediana Q3', 'Maksimum']]
@@ -128,13 +128,13 @@ def second_table(data):
     }
     
     for text, column in characteristics.items():
-        min_val = find_min(data, column)
-        avg_val = mean(data, column)
-        std_dev = standard_deviation(data, avg_val, column)
-        median_q2 = median_for_qs(data, column)[0]
-        median_q1 = median_for_qs(data, column)[1]
-        median_q3 = median_for_qs(data, column)[2]
-        max_val = find_max(data, column)
+        min_val = round(find_min(data, column), 2)
+        avg_val = round(mean(data, column), 2)
+        std_dev = round(standard_deviation(data, avg_val, column), 2)
+        median_q2 = round(median_for_qs(data, column)[0], 2)
+        median_q1 = round(median_for_qs(data, column)[1], 2)
+        median_q3 = round(median_for_qs(data, column)[2], 2)
+        max_val = round(find_max(data, column), 2)
 
         results.append([text, min_val, avg_val, std_dev, median_q2, median_q1, median_q3, max_val])
 

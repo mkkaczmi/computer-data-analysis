@@ -15,7 +15,7 @@ def correlation(x, y, x_mean, y_mean):
         denominator_x += pow(x_part, 2)
         denominator_y += pow(y_part, 2)
 
-    return round(numerator / math.sqrt(denominator_x * denominator_y), 2)
+    return numerator / math.sqrt(denominator_x * denominator_y)
 
 def linear_regression(x, y, x_mean, y_mean):
     numerator = 0
