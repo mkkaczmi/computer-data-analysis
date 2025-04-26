@@ -1,51 +1,22 @@
 import matplotlib.pyplot as plt
-from tables import find_min, find_max
+import numpy as np
 import os
 
 def get_column(data, col_index):
-    column = []
-
-    for i in range(len(data)):
-        column.append(data[i][col_index])
-
-    return column
+    return np.array(data)[:, col_index]
 
 def get_column_for_species(data, col_index, species_id):
-    column = []
-
-    for i in range(len(data)):
-        if data[i][-1] == species_id:
-            column.append(data[i][col_index])
-
-    return column
-
-def get_bins(start, end):
-    result = []
-
-    start_calc = int(start)
-    if end % 10 > 5:
-        end_calc = int(end) + 1
-    else:
-        end_calc = int(end) + 0.5
-    
-    current = float(start_calc)
-
-    while current <= end_calc:
-        result.append(current)
-        current += 0.5
-
-    return result
+    data_array = np.array(data)
+    return data_array[data_array[:, -1] == species_id][:, col_index]
 
 def hist(title, description, output_dir="plots/hist"):
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
 
-    bins_list = description["bins"]
     xlabel = description["xlabel"]
-
     dataset = description["data"]
 
-    plt.hist(dataset, bins=bins_list, edgecolor='black')
+    plt.hist(dataset, edgecolor='black')
 
     plt.xlabel(xlabel)
     plt.ylabel('Liczebność')
@@ -59,23 +30,19 @@ def hist_all(data):
     characteristics = {
         'Długość działki kielicha': {
             "data": get_column(data, 0),
-            "xlabel": "Długość (cm)",
-            "bins": get_bins(find_min(data, 0), find_max(data, 0))
+            "xlabel": "Długość (cm)"
         },
         'Szerokość działki kielicha': {
             "data": get_column(data, 1),
-            "xlabel": "Szerokość (cm)",
-            "bins": get_bins(find_min(data, 1), find_max(data, 1))
+            "xlabel": "Szerokość (cm)"
         },
         'Długość płatka': {
             "data": get_column(data, 2),
-            "xlabel": "Długość (cm)",
-            "bins": get_bins(find_min(data, 2), find_max(data, 2))
+            "xlabel": "Długość (cm)"
         },
         'Szerokość płatka': {
             "data": get_column(data, 3),
-            "xlabel": "Szerokość (cm)",
-            "bins": get_bins(find_min(data, 3), find_max(data, 3))
+            "xlabel": "Szerokość (cm)"
         }
     }
 

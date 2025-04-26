@@ -164,3 +164,6 @@ cython_debug/
 # other
 plots
 tables
+*.zip
+*.pdf
+*.png
